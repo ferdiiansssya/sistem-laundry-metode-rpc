@@ -113,5 +113,5 @@ app.use((req, res, next) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Laundry RPC Server running${PORT}`);
+    console.log(`Laundry RPC Server running`);
 });
