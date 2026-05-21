@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreshLaundry — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --green: #16a34a;
+      --green-bg: #f0fdf4;
+      --green-border: #bbf7d0;
+      --green-light: #dcfce7;
+      --blue-bg: #eff6ff;
+      --blue-border: #bfdbfe;
+      --blue-text: #1d4ed8;
+      --amber-bg: #fffbeb;
+      --amber-border: #fde68a;
+      --amber-text: #92400e;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --text-hint: #9ca3af;
+      --bg: #f9fafb;
+      --surface: #ffffff;
+      --border: #e5e7eb;
+      --border-light: #f3f4f6;
+      --font: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--green-bg);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--green);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--green-bg);
+      border: 1.5px solid var(--green-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      cursor: pointer;
+    }
+
+    .content {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .greeting h1 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .greeting h1 span {
+      color: var(--green);
+    }
+
+    .greeting p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .price-banner {
+      background: var(--green-bg);
+      border: 1px solid var(--green-border);
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .price-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .price-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--green-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .price-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--green);
+    }
+
+    .price-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+    }
+
+    .price-desc {
+      font-size: 12px;
+      color: var(--green);
+      opacity: .7;
+      margin-top: 2px;
+    }
+
+    .price-right {
+      text-align: right;
+    }
+
+    .price-amount {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--green);
+    }
+
+    .price-per {
+      font-size: 11px;
+      color: var(--green);
+      opacity: .65;
+    }
+
+    .section-label {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-label svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-muted);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .field label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 9px 12px;
+      font-size: 14px;
+      font-family: var(--font);
+      width: 100%;
+      outline: none;
+      transition: border-color .15s;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--green);
+      background: #fff;
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 64px;
+    }
+
+    .row2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      gap: 20px;
+      margin-top: 4px;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: normal;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .checkbox-group input {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      accent-color: var(--green);
+    }
+
+    .hint {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: var(--text-hint);
+    }
+
+    .hint svg {
+      width: 13px;
+      height: 13px;
+      stroke: var(--text-hint);
+      flex-shrink: 0;
+    }
+
+    .btn-book {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      background: var(--green);
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: opacity .15s, transform .1s;
+    }
+
+    .btn-book:hover {
+      opacity: .9;
+    }
+
+    .btn-book:active {
+      transform: scale(.98);
+    }
+
+    .btn-book svg {
+      width: 16px;
+      height: 16px;
+      stroke: #fff;
+    }
+
+    .toast {
+      background: var(--green-bg);
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--green);
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--green);
+      flex-shrink: 0;
+    }
+
+    .toast.show {
+      display: flex;
+    }
+
+    .order-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .order-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+
+    .order-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .order-id {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      font-family: monospace;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .badge svg {
+      width: 11px;
+      height: 11px;
+    }
+
+    .badge.selesai {
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid var(--green-border);
+    }
+
+    .badge.selesai svg {
+      stroke: var(--green);
+    }
+
+    .badge.proses {
+      background: var(--blue-bg);
+      color: var(--blue-text);
+      border: 1px solid var(--blue-border);
+    }
+
+    .badge.proses svg {
+      stroke: var(--blue-text);
+    }
+
+    .badge.menunggu {
+      background: var(--amber-bg);
+      color: var(--amber-text);
+      border: 1px solid var(--amber-border);
+    }
+
+    .badge.menunggu svg {
+      stroke: var(--amber-text);
+    }
+
+    .order-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .order-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .steps {
+      display: flex;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      flex: 1;
+      font-size: 10px;
+      color: var(--text-hint);
+      text-align: center;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    .dot.done {
+      background: var(--green);
+    }
+
+    .dot.now {
+      background: var(--blue-text);
+      box-shadow: 0 0 0 3px var(--blue-bg);
+    }
+
+    .line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      align-self: center;
+      margin-top: -15px;
+    }
+
+    .line.done {
+      background: var(--green);
+    }
+
+    .order-footer {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .order-price {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .btn-detail,
+    .btn-weight {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: var(--font);
+      transition: background .15s, color .15s;
+    }
+
+    .btn-detail:hover,
+    .btn-weight:hover {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .btn-weight {
+      background: var(--blue-bg);
+      border-color: var(--blue-border);
+      color: var(--blue-text);
+    }
+
+    .empty-orders {
+      text-align: center;
+      padding: 32px;
+      background: var(--surface);
+      border-radius: 14px;
+      border: 1px dashed var(--border);
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .weight-input {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .weight-input input {
+      width: 70px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+          <circle cx="12" cy="12" r="10" />
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83" />
+        </svg>
+      </div>
+      FreshLaundry
+    </div>
+    <div class="topbar-right">
+      <button class="notif-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+        </svg>
+        <span class="notif-dot"></span>
+      </button>
+      <div class="avatar">BS</div>
+    </div>
+  </header>
+
+  <main class="content">
+    <div class="greeting">
+      <h1>Halo, <span>Budi Santoso</span> 👋</h1>
+      <p>Booking laundry kiloan, berat akan diisi setelah penjemputan</p>
+    </div>
+
+    <div class="price-banner">
+      <div class="price-banner-left">
+        <div class="price-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+            <line x1="7" y1="7" x2="7.01" y2="7" />
+          </svg>
+        </div>
+        <div>
+          <div class="price-title">Cuci kering</div>
+          <div class="price-desc">Rp5.000/kg + opsi tambahan</div>
+        </div>
+      </div>
+      <div class="price-right">
+        <div class="price-amount">Rp5.000</div>
+        <div class="price-per">per kg</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+        Booking
+      </div>
+      <div class="card">
+        <div class="form-stack">
+          <div class="field">
+            <label>Alamat Jemput</label>
+            <textarea id="address" rows="2" placeholder=""></textarea>
+          </div>
+
+          <div class="field">
+            <label>Tanggal Jemput</label>
+            <input type="date" id="pickupDate">
+          </div>
+
+          <div class="field">
+            <label>Layanan Tambahan</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" id="extraSetrika">Setrika (Rp3.000)</label>
+              <label><input type="checkbox" id="extraLipat">Lipat (Rp4.000)</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Catatan tambahan</label>
+            <input type="text" id="note">
+          </div>
+
+          <div class="toast" id="toastMsg">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Booking berhasil! Kurir akan menjemput. Setelah dijemput, isi berat cucian.
+          </div>
+
+          <button class="btn-book" id="bookBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+            Buat Booking
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+          <line x1="8" y1="6" x2="21" y2="6" />
+          <line x1="8" y1="12" x2="21" y2="12" />
+          <line x1="8" y1="18" x2="21" y2="18" />
+        </svg>
+        Pesanan kamu
+      </div>
+      <div id="ordersContainer" class="order-list">
+        <div class="empty-orders">Memuat pesanan...</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const RPC_URL = 'http://localhost:3000/rpc';
+
+    async function rpcCall(method, params) {
+      const response = await fetch(RPC_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          method: method,
+          params: params || {},
+          id: Date.now()
+        })
+      });
+      const data = await response.json();
+      if (data.error) throw new Error(data.error.message);
+      return data.result;
+    }
+
+    function setDefaultDate() {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const yyyy = tomorrow.getFullYear();
+      const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+      const dd = String(tomorrow.getDate()).padStart(2, '0');
+      document.getElementById('pickupDate').value = `${yyyy}-${mm}-${dd}`;
+    }
+
+    async function updateWeight(orderId) {
+      const weightInput = prompt('Masukkan berat cucian (kg):', '');
+      if (!weightInput) return;
+      const weight = parseFloat(weightInput);
+      if (isNaN(weight) || weight <= 0 || weight > 100) {
+        alert('Berat harus antara 1-100 kg');
+        return;
+      }
+      try {
+        await rpcCall('updateWeight', { orderId, weight });
+        await loadOrders(); // refresh daftar
+      } catch (err) {
+        alert('Gagal update berat: ' + err.message);
+      }
+    }
+
+    function renderOrders(orders) {
+      const container = document.getElementById('ordersContainer');
+      if (!orders || orders.length === 0) {
+        container.innerHTML = '<div class="empty-orders">Belum ada pesanan. Buat booking pertama!</div>';
+        return;
+      }
+
+      container.innerHTML = orders.map(order => {
+        let badgeClass = '', badgeText = '', badgeIcon = '';
+        let statusStep = 0;
+        if (order.status === 'selesai') {
+          badgeClass = 'selesai';
+          badgeText = 'Selesai';
+          badgeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+          statusStep = 3;
+        } else if (order.status === 'proses') {
+          badgeClass = 'proses';
+          badgeText = 'Sedang diproses';
+          badgeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>';
+          statusStep = 2;
+        } else {
+          badgeClass = 'menunggu';
+          badgeText = 'Menunggu konfirmasi';
+          badgeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+          statusStep = 1;
+        }
+
+        const extras = [];
+        if (order.setrika) extras.push('Setrika');
+        if (order.lipat) extras.push('Lipat');
+        const extrasText = extras.length ? ` + ${extras.join(' + ')}` : ' (cuci kering saja)';
+
+        // Tampilkan berat jika sudah diisi
+        const weightDisplay = order.weight ? `${order.weight} kg` : 'Berat belum diisi';
+
+        const steps = ['Dijemput', 'Dicuci', 'Dikeringkan', 'Selesai'];
+        let stepsHtml = '';
+        for (let i = 0; i < steps.length; i++) {
+          const isDone = i < statusStep;
+          const isNow = i === statusStep - 1 && statusStep < steps.length;
+          stepsHtml += `
+            <div class="step">
+              <div class="dot ${isDone ? 'done' : ''} ${isNow ? 'now' : ''}"></div>
+              <div>${steps[i]}</div>
+            </div>
+          `;
+          if (i < steps.length - 1) {
+            stepsHtml += `<div class="line ${isDone ? 'done' : ''}"></div>`;
+          }
+        }
+
+        // Tombol isi berat hanya jika status masih menunggu dan berat belum diisi
+        const weightButton = (!order.weight && order.status === 'menunggu')
+          ? `<button class="btn-weight" onclick="updateWeight('${order.id}')">📦 Input berat</button>`
+          : '';
+
+        return `
+          <div class="order-card">
+            <div class="order-head">
+              <span class="order-id">#${order.id}</span>
+              <span class="badge ${badgeClass}">${badgeIcon} ${badgeText}</span>
+            </div>
+            <div class="order-name">Cuci kering${extrasText}</div>
+            <div class="order-meta">📍 ${order.address.substring(0, 50)}${order.address.length > 50 ? '…' : ''} &nbsp;·&nbsp; 📅 ${order.pickupDate} &nbsp;·&nbsp; ⚖️ ${weightDisplay}</div>
+            <div class="steps">${stepsHtml}</div>
+            <div class="order-footer">
+              <div class="order-price">Rp${order.total.toLocaleString('id-ID')}</div>
+              <div style="display: flex; gap: 8px;">
+                ${weightButton}
+                <button class="btn-detail" onclick="alert('Detail order: ${order.id}\\nBerat: ${order.weight || 'belum diisi'} kg\\nAlamat: ${order.address}\\nCatatan: ${order.note || '-'}')">Lihat detail</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function loadOrders() {
+      try {
+        const orders = await rpcCall('listOrders');
+        renderOrders(orders);
+      } catch (err) {
+        console.error(err);
+        document.getElementById('ordersContainer').innerHTML = '<div class="empty-orders">Gagal memuat pesanan. Pastikan server berjalan di http://localhost:3000</div>';
+      }
+    }
+
+    async function createBooking() {
+      const address = document.getElementById('address').value.trim();
+      const setrika = document.getElementById('extraSetrika').checked;
+      const lipat = document.getElementById('extraLipat').checked;
+      const pickupDate = document.getElementById('pickupDate').value;
+      const note = document.getElementById('note').value;
+
+      if (!address) {
+        alert('Alamat jemput harus diisi');
+        return;
+      }
+      if (!pickupDate) {
+        alert('Tanggal jemput harus diisi');
+        return;
+      }
+
+      const btn = document.getElementById('bookBtn');
+      btn.disabled = true;
+      btn.innerHTML = 'Memproses...';
+
+      try {
+        await rpcCall('createOrder', {
+          address,
+          setrika,
+          lipat,
+          pickupDate,
+          note
+        });
+
+        const toast = document.getElementById('toastMsg');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+
+        // Reset form
+        document.getElementById('address').value = '';
+        document.getElementById('extraSetrika').checked = false;
+        document.getElementById('extraLipat').checked = false;
+        document.getElementById('note').value = '';
+        setDefaultDate();
+
+        await loadOrders();
+      } catch (err) {
+        alert('Gagal membuat booking: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Buat Booking';
+      }
+    }
+
+    document.getElementById('bookBtn').addEventListener('click', createBooking);
+    setDefaultDate();
+    loadOrders();
+  </script>
+</body>
+
+</html>
