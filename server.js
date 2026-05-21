@@ -2,12 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-
-// Sajikan file statis (seperti index.html, css, js) dari folder yang sama
 app.use(express.static(__dirname));
 
 const BASE_PRICE = 5000;
@@ -29,7 +27,6 @@ function calculateTotal(weight, setrika, lipat) {
     return weight * pricePerKg;
 }
 
-// RPC endpoint
 app.post('/rpc', (req, res) => {
     const { jsonrpc, method, params, id } = req.body;
 
@@ -108,8 +105,6 @@ app.post('/rpc', (req, res) => {
     sendResponse(null, { code: -32601, message: 'Method not found' });
 });
 
-// 🟢 FALLBACK untuk semua rute GET selain /rpc (agar tidak dapat error "Cannot GET /")
-// Gunakan middleware yang memeriksa method GET dan mengirim index.html
 app.use((req, res, next) => {
     if (req.method === 'GET' && !req.path.startsWith('/rpc')) {
         return res.sendFile(path.join(__dirname, 'index.html'));
