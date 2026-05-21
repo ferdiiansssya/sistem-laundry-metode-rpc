@@ -664,7 +664,6 @@
   </main>
 
   <script>
-    // 🔧 PERUBAHAN: Gunakan relative path agar bekerja di production
     const RPC_URL = '/rpc';
 
     async function rpcCall(method, params) {
@@ -789,7 +788,6 @@
         renderOrders(orders);
       } catch (err) {
         console.error(err);
-        // Ubah pesan error agar tidak menyebut localhost
         document.getElementById('ordersContainer').innerHTML = '<div class="empty-orders">Gagal memuat pesanan. Periksa koneksi atau coba lagi nanti.</div>';
       }
     }
